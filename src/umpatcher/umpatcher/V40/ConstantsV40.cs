@@ -37,6 +37,14 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 			"mono",
 			"msvc",
 		};
+		
+		public static readonly string[] UnityFoldersToCopy_2022 = new string[] {
+			"external/bdwgc",
+			"external/corefx",
+			"mono",
+			"msvc",
+			"support/libm",
+		};
 
 		public const string SolutionFilenameFormatString = "dnSpy-Unity-mono-v{0}.x-V40.sln";
 		public static readonly string[] SolutionConfigurations = new string[] {
