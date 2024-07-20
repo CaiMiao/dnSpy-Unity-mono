@@ -46,7 +46,7 @@ namespace UnityMonoDllSourceCodePatcher {
 			PatchToolsVersion();
 			PatchProjectGuidTags();
 			PatchProjectTags();
-			AddWindowsTargetPlatformVersion();
+			AddOrRemoveWindowsTargetPlatformVersion();
 			AddPlatformToolset();
 			PatchCore();
 			textFilePatcher.Write();
@@ -152,6 +152,17 @@ namespace UnityMonoDllSourceCodePatcher {
 			if (info.startTagIndex == 0 && info.endTagIndex == 0)
 				throw new ProgramException($"Couldn't find Globals PropertyGroup, file '{textFilePatcher.Filename}'");
 			UpdateOrCreateTag(info.startTagIndex + 1, info.endTagIndex, "WindowsTargetPlatformVersion", solutionOptions.WindowsTargetPlatformVersion);
+		}
+		
+		void RemoveWindowsTargetPlatformVersion() {
+			foreach (var info in GetTags("WindowsTargetPlatformVersion"))
+				textFilePatcher.Lines.RemoveRange(info.startTagIndex, info.endTagIndex - info.startTagIndex + 1);
+		}
+
+		void AddOrRemoveWindowsTargetPlatformVersion() {
+			if (solutionOptions.WindowsTargetPlatformVersion == Constants.RemoveWindowsTargetPlatformVersion)
+				RemoveWindowsTargetPlatformVersion();
+			else AddWindowsTargetPlatformVersion();
 		}
 
 		void AddPlatformToolset() {
