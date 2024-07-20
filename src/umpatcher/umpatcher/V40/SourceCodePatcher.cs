@@ -69,6 +69,14 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 			var lines = textFilePatcher.Lines;
 
 			{
+				int index = textFilePatcher.GetIndexesOfLine(line => line.Text.Contains("static void process_profiler_event (EventKind event, gpointer arg);")).First();
+				textFilePatcher.Insert(++index, string.Empty);
+				textFilePatcher.Insert(++index, "extern int dnSpy_debugger_agent_parse_options (char* arg);");
+				textFilePatcher.Insert(++index, string.Empty);
+				textFilePatcher.Insert(++index, "extern void dnSpy_debugger_init_after_agent (void);");
+			}
+
+			{
 				int index = textFilePatcher.GetIndexesOfLine(line => line.Text.Contains("agent_config.setpgid = parse_flag (\"setpgid\", arg + 8)")).Single();
 				Verify(lines[index + 1].Text, "\t\t} else {", filename, index + 1);
 				textFilePatcher.Insert(index + 1, "\t\t} else if (dnSpy_debugger_agent_parse_options (arg)) {");
@@ -124,9 +132,21 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 		void Patch_mono_mini_mini_runtime_c() {
 			var filename = Path.Combine(solutionOptions.UnityVersionDir, "mono", "mini", "mini-runtime.c");
 			var textFilePatcher = new TextFilePatcher(filename);
-			int index = textFilePatcher.GetIndexesOfLine(line => line.Text.Contains("CHECKED_MONO_INIT ();")).Single();
-			textFilePatcher.Insert(++index, string.Empty);
-			textFilePatcher.Insert(++index, "\tdnSpy_debugger_init ();");
+
+			{
+				int index = textFilePatcher.GetIndexesOfLine(line => line.Text.Contains("mono_get_runtime_build_version (void);"))
+					.Single();
+				textFilePatcher.Insert(++index, string.Empty);
+				textFilePatcher.Insert(++index, "extern void dnSpy_debugger_init (void);");
+			}
+
+			{
+				int index = textFilePatcher.GetIndexesOfLine(line => line.Text.Contains("CHECKED_MONO_INIT ();"))
+					.Single();
+				textFilePatcher.Insert(++index, string.Empty);
+				textFilePatcher.Insert(++index, "\tdnSpy_debugger_init ();");
+			}
+			
 			textFilePatcher.Write();
 		}
 
