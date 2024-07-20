@@ -56,6 +56,11 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 			if (value != expectedValue)
 				throw new ProgramException($"Line '{line_number}' of file '{filename}' is '{value}' but expected line is '{expectedValue}'");
 		}
+		
+		static void VerifyWhitespace(string value, string filename, int line_number) {
+			if (!String.IsNullOrWhiteSpace(value))
+				throw new ProgramException($"Line '{line_number}' of file '{filename}' is '{value}' but expected whitespace");
+		}
 
 		void Patch_mono_mini_debugger_agent_c() {
 			var filename = Path.Combine(solutionOptions.UnityVersionDir, "mono", "mini", "debugger-agent.c");
@@ -71,7 +76,7 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 
 			{
 				int index = textFilePatcher.GetIndexesOfLine(line => line.Text.Contains("mono_native_tls_alloc (&debugger_tls_id, NULL);")).Single();
-				Verify(lines[index - 1].Text, string.Empty, filename, index - 1);
+				VerifyWhitespace(lines[index - 1].Text, filename, index - 1);
 				textFilePatcher.Insert(index, string.Empty);
 				textFilePatcher.Insert(index, "\tdnSpy_debugger_init_after_agent ();");
 			}
