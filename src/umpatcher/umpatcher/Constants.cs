@@ -34,5 +34,7 @@ namespace UnityMonoDllSourceCodePatcher {
 		public const string DefaultPlatformToolset = "v141";
 
 		public const string GitCleanTreeMessage = "nothing to commit, working tree clean";
+		
+		public const int ProcessTimeoutMilliseconds = 60000;
 	}
 }
