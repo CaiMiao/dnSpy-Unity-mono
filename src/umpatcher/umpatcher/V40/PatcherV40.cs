@@ -32,6 +32,8 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 		static ProjectFilesKind GetProjectFilesKind(string unityVersion) {
 			if (!UnityVersion.TryParse(unityVersion, out var version))
 				throw new InvalidOperationException($"Invalid unity version: {unityVersion}");
+			if (version.Major >= 2022)
+				return ProjectFilesKind.V2022;
 			if (version.Major >= 2018)
 				return ProjectFilesKind.V2018;
 			if (version.Major == 2017)
