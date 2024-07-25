@@ -153,14 +153,18 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 		void Add_mono_mini_dnSpy_c() {
 			var filename = Path.Combine(solutionOptions.UnityVersionDir, "mono", "mini", "dnSpy.c");
 			var sb = new StringBuilder();
-			sb.Append("﻿#include <mono/metadata/profiler.h>\r\n");
+			if (solutionOptions.UnityVersion.Major >= 2022)
+				sb.Append("﻿#include <mono/metadata/profiler-legacy.h>\r\n");
+			else sb.Append("﻿#include <mono/metadata/profiler.h>\r\n");
 			sb.Append("#include <mono/metadata/mono-debug.h>\r\n");
 			sb.Append("#include \"debugger-agent.h\"\r\n");
 			sb.Append("#define DNUNITYRT 1\r\n");
 			if (solutionOptions.UnityVersion.Major >= 2018) {
-				sb.Append("typedef void *MonoLegacyProfiler;\r\n");
-				sb.Append("typedef void (*MonoLegacyProfileFunc) (MonoLegacyProfiler *prof);\r\n");
-				sb.Append("MONO_API void mono_profiler_install (MonoLegacyProfiler *prof, MonoLegacyProfileFunc callback);\r\n");
+				if (solutionOptions.UnityVersion.Major < 2022) {
+					sb.Append("typedef void *MonoLegacyProfiler;\r\n");
+					sb.Append("typedef void (*MonoLegacyProfileFunc) (MonoLegacyProfiler *prof);\r\n");
+					sb.Append("MONO_API void mono_profiler_install (MonoLegacyProfiler *prof, MonoLegacyProfileFunc callback);\r\n");
+				}
 				sb.Append("#define DEFINED_LEGACY_PROFILER\r\n");
 			}
 			sb.Append("#include \"../dnSpyFiles/dnSpy.c\"\r\n");
