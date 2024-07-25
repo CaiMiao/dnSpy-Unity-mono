@@ -155,7 +155,7 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 		}
 
 		void Patch_bdwgc_gc_atomic_ops_h() {
-			if (solutionOptions.UnityVersion.CompareTo(new UnityVersion(2018, 3, 0, UnityVersionRelease.Untyped, "-mbe")) < 0)
+			if (solutionOptions.UnityVersion.CompareTo(new UnityVersion(2018, 3, 0, UnityVersionRelease.Untyped, "-mbe")) < 0 || solutionOptions.UnityVersion.Major >= 2022)
 				return;
 			var filename = Path.Combine(solutionOptions.UnityVersionDir, "external", "bdwgc", "include", "private", "gc_atomic_ops.h");
 			var textFilePatcher = new TextFilePatcher(filename);
@@ -168,7 +168,7 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 		}
 
 		void Patch_bdwgc_gcconfig_h() {
-			if (solutionOptions.UnityVersion.CompareTo(new UnityVersion(2019, 1, 0, UnityVersionRelease.Untyped, "-mbe")) < 0)
+			if (solutionOptions.UnityVersion.CompareTo(new UnityVersion(2019, 1, 0, UnityVersionRelease.Untyped, "-mbe")) < 0  || solutionOptions.UnityVersion.Major >= 2022)
 				return;
 			var filename = Path.Combine(solutionOptions.UnityVersionDir, "external", "bdwgc", "include", "private", "gcconfig.h");
 			var textFilePatcher = new TextFilePatcher(filename);
