@@ -69,6 +69,9 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 			var transformC = PathCombine(coreFxBrotliDir, @"common\transform.c");
 			var brotliTransformC = PathCombine(coreFxBrotliDir, @"common\brotli_transform.c");
 			File.Move(transformC, brotliTransformC);
+			// external/bdwgc/.gitignore ignores external/bdwgc/libatomic_ops, which we need, so just delete it.
+			var gitIgnoreFile = PathCombine(dnSpyVersionPath, @"external\bdwgc\.gitignore");
+			File.Delete(gitIgnoreFile);
 		}
 
 		protected override void PatchOriginalFilesCore() {
