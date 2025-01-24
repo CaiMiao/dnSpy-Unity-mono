@@ -82,5 +82,11 @@ namespace UnityMonoDllSourceCodePatcher {
 			if (result != 0)
 				ThrowError($"Git commit failed with error code {result}: {standardError}");
 		}
+
+		public void SwitchCreate(string hashOrBranchName) {
+			int result = Exec.Run(repoPath, gitPath, $"switch -c {hashOrBranchName}", out _, out var standardError);
+			if (result != 0)
+				ThrowError($"Git switch -c {hashOrBranchName} failed with error code {result}: {standardError}");
+		}
 	}
 }

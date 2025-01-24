@@ -44,7 +44,7 @@ namespace UnityMonoDllSourceCodePatcher {
 				throw new ProgramException($"Directory {dnSpyVersionPath} already exists");
 			CopyOriginalUnityFiles();
 			UpdateReadMe();
-			MergeMasterIntoDnSpy();
+			//MergeMasterIntoDnSpy();
 			PatchOriginalFiles();
 		}
 
@@ -58,6 +58,8 @@ namespace UnityMonoDllSourceCodePatcher {
 			unityRepo.CheckOut(unityGitHash);
 			dnSpyRepo.CheckOut(Constants.DnSpyUnityRepo_master_Branch);
 			dnSpyRepo.ThrowIfTreeNotClean();
+			// use a separate branch to do add & patching
+			dnSpyRepo.SwitchCreate(unityVersion);
 
 			var submodules = Submodules;
 			if (submodules.Length != 0) {
@@ -112,7 +114,8 @@ namespace UnityMonoDllSourceCodePatcher {
 		void PatchOriginalFiles() {
 			Log($"Patching solution, projects and source code files");
 			dnSpyRepo.ThrowIfTreeNotClean();
-			dnSpyRepo.CheckOut(Constants.DnSpyUnityRepo_dnSpy_Branch);
+			//dnSpyRepo.CheckOut(Constants.DnSpyUnityRepo_dnSpy_Branch);
+			dnSpyRepo.CheckOut(unityVersion);
 			dnSpyRepo.ThrowIfTreeNotClean();
 
 			PatchOriginalFilesCore();
