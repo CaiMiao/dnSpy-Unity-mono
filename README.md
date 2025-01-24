@@ -1,3 +1,24 @@
+# Fork owner notes
+
+example for `2022.3.53f1`
+
+```sh
+# shallow clone target tag, will take a long while
+git clone --recurse-submodules --shallow-submodules --single-branch --depth=1 -b 2022.3.53f1 https://github.com/Unity-Technologies/mono
+# the `umpatcher.exe` depends on `master` branch for both repo so do not forget create one for `mono` repo
+cd mono
+git switch -c master
+```
+
+after correctly cloned your stuff, built `umpatcher.exe` et cetera , just go ahead with correct version number:
+
+```sh
+.\umpatcher.exe "2022.3.53f1" db8d601e4073dd09d92cf3ac318aae3d8dbb0412 "x:\src\mono" "x:\src\dnSpy-Unity-mono"
+```
+
+when compiling your mono stuff, you might come come across missing `eglib.lib` link error or something similar, but it should have built and just werk.
+
+---
 This repo contains all files needed to build `mono.dll` & `mono-2.0-bdwgc.dll` with debugging support for Unity.
 
 The `master` branch contains the original files. You have to check out the `dnSpy` branch to build everything. Use VS2017.
