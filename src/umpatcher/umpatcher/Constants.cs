@@ -22,6 +22,7 @@ namespace UnityMonoDllSourceCodePatcher {
 		public const string DnSpyUnityRepo_master_Branch = "master";
 		public const string DnSpyUnityRepo_dnSpy_Branch = "dnSpy";
 		public const string UnityVersionPrefix = "unity-";
+		public const string UnityVersionSuffixMbe = "-mbe";
 		public const string ReadMeFilename = "README.md";
 
 		public static readonly string[] VersionTableHeaderLines = new string[] {

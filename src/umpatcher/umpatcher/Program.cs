@@ -111,7 +111,8 @@ namespace UnityMonoDllSourceCodePatcher {
 			if (!UnityVersion.TryParse(unityVersion, out var version))
 				throw new ProgramException("Invalid version number");
 			// Unity versions 2019.3+ contain only MonoBleedingEdge.
-			if (version.Suffix == "-mbe" || version.Major == 2019 && version.Minor >= 3 || version.Major > 2019)			
+			if (version.Suffix == Constants.UnityVersionSuffixMbe ||
+				version.Suffix == string.Empty && (version.Major == 2019 && version.Minor >= 3 || version.Major > 2019))			
 				return PatcherKind.V40;
 			if (version.Suffix == string.Empty)
 				return PatcherKind.V35;
