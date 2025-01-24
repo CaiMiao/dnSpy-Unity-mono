@@ -110,10 +110,10 @@ namespace UnityMonoDllSourceCodePatcher {
 		static PatcherKind GetPatcherKind(string unityVersion) {
 			if (!UnityVersion.TryParse(unityVersion, out var version))
 				throw new ProgramException("Invalid version number");
+			if (version.Major > 2019 || version.Major == 2019 && version.Minor >= 3  ||version.Suffix == "-mbe")
+				return PatcherKind.V40;
 			if (version.Suffix == string.Empty)
 				return PatcherKind.V35;
-			if (version.Suffix == "-mbe")
-				return PatcherKind.V40;
 			return PatcherKind.Unknown;
 		}
 
