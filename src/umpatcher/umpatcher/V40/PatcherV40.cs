@@ -85,6 +85,8 @@ namespace UnityMonoDllSourceCodePatcher.V40 {
 			if (solutionOptions.LibmonoruntimeProject != null) new LibmonoruntimeProjectPatcher(solutionOptions).Patch();
 			if (solutionOptions.LibmonoStaticProject != null) new LibmonoStaticProjectPatcher(solutionOptions).Patch();
 			if (solutionOptions.LibmonoutilsProject != null) new LibmonoutilsProjectPatcher(solutionOptions).Patch();
+			// monowpatcher baytah
+			if (solutionOptions.MonowProject != null) new MonowProjectPatcher(solutionOptions).Patch();
 			new SourceCodePatcher(solutionOptions).Patch();
 		}
 	}
